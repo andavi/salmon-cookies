@@ -36,27 +36,38 @@ nav li {
   display: inline;
 }
 
-li a {
-  display: inline-block;
-  font-size: 150%;
+a {
   text-decoration: none;
-  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  padding: 10px 40px;
-}
-
-a:link {
   color: darkcyan;
 }
 
-a:visited {
-  color: darksalmon;
+li a {
+  display: inline-block;
+  font-size: 150%;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 10px 40px;
 }
 
 a:hover {
   color: steelblue;
 }
 
+.active {
+  color: darksalmon;
+}
+
 #data {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: steelblue
+  color: steelblue;
+  text-align: center;
+}
+
+#data div {
+  display: inline-block;
+  margin: 30px;
+}
+
+.subtitle {
+  font-size: 150%;
+  text-align: center;
 }
