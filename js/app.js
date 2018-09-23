@@ -94,7 +94,3 @@ stores.forEach(store => {
   div.appendChild(ul);
   data.appendChild(div);
 });
-
-
-
-
