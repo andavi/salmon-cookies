@@ -44,16 +44,16 @@ li a {
   padding: 10px 40px;
 }
 
-a:link {
+a {
   color: darkcyan;
-}
-
-a:visited {
-  color: darksalmon;
 }
 
 a:hover {
   color: steelblue;
+}
+
+.active {
+  color: darksalmon;
 }
 
 #data {
