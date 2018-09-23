@@ -76,7 +76,7 @@ times.push('Total: ');
 
 
 // generate html and append
-var body = document.getElementsByTagName('body')[0];
+var data = document.getElementById('data');
 
 stores.forEach(store => {
   var div = document.createElement('div');
@@ -92,7 +92,7 @@ stores.forEach(store => {
 
   div.appendChild(h3);
   div.appendChild(ul);
-  body.appendChild(div);
+  data.appendChild(div);
 });
 
 
