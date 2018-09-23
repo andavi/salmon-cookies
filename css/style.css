@@ -1,35 +1,62 @@
 body {
   background-color: aliceblue;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  color: darkslategray;
+  width: 90%;
+  margin: auto;
 }
 
 h1 {
-  font-family: 'Notable', sans-serif;
+  font-family: 'Satisfy', cursive;
+  font-size: 300%;
   color: darkcyan;
   text-align: center;
 }
 
-ul {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
 img {
   float: left;
+  margin: 10px;
 }
 
-a {
+nav {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul {
+  
+  border: 2px solid darkcyan;
+  border-width: 2px 0;
+  list-style: none;
+  padding: 0;
+}
+
+nav li {
+  display: inline;
+}
+
+li a {
+  display: inline-block;
   font-size: 150%;
   text-decoration: none;
+  font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  padding: 10px 40px;
 }
 
 a:link {
-  color: darkblue;
-}
-
-a:hover {
-  color: darksalmon;
+  color: darkcyan;
 }
 
 a:visited {
-  color: darkcyan;
+  color: darksalmon;
+}
+
+a:hover {
+  color: steelblue;
+}
+
+#data {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: steelblue
 }
