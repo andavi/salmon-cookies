@@ -7,7 +7,10 @@ class Store {
     this.min = min;
     this.max = max;
     this.avgCookies = avgCookies;
-    this.data = document.getElementById('data');
+  }
+
+  get dataDiv() {
+    return document.getElementById('data');
   }
 
   get customersPerHour() {
@@ -25,13 +28,13 @@ class Store {
   get timeStrings() {
     var timeStrings = [];
     for (let i = 6; i < 12; i++) {
-      timeStrings.push(i + 'am: ');
+      timeStrings.push(`${i}:00am`);
     }
-    timeStrings.push('12pm: ');
+    timeStrings.push('12:00pm');
     for (let i = 1; i < 9; i++) {
-      timeStrings.push(i + 'pm: ');
+      timeStrings.push(`${i}:00pm`);
     }
-    timeStrings.push('Total: ');
+    timeStrings.push('Total');
     return timeStrings;
   }
 
@@ -49,7 +52,7 @@ class Store {
 
     div.appendChild(h3);
     div.appendChild(ul);
-    this.data.appendChild(div);
+    this.dataDiv.appendChild(div);
   }
 }
 
@@ -68,5 +71,47 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 stores.forEach(store => store.generateCookiesPerHour());
 
 
-// generate html and append
-stores.forEach(store => store.renderUL());
+// generate unordered list html and append
+// stores.forEach(store => store.renderUL());
+
+// generate totals
+var generateTotals = stores => {
+  var totals = [];
+  for (let i = 0; i < stores[0].cookiesPerHour.length; i++) {
+    totals[i] = stores.reduce((a, store) => a + store.cookiesPerHour[i]);
+  }
+  return totals;
+};
+var totals = generateTotals(stores);
+console.log(totals);
+
+// genereate table html and append
+var renderTable = () => {
+  var table = document.createElement('table');
+  var trTimes = document.createElement('tr');
+  trTimes.appendChild(document.createElement('th'));
+  Store.prototype.timeStrings.forEach(timeStr => {
+    var th = document.createElement('th');
+    th.textContent = timeStr;
+    trTimes.appendChild(th);
+  });
+  table.appendChild(trTimes);
+
+  stores.forEach(store => {
+    var tr = document.createElement('tr');
+    var th = document.createElement('th');
+    th.textContent = store.location;
+    tr.appendChild(th);
+    store.cookiesPerHour.forEach(n => {
+      var td = document.createElement('td');
+      td.textContent = n;
+      tr.appendChild(td);
+    });
+    table.appendChild(tr);
+  });
+
+  
+  Store.prototype.dataDiv.appendChild(table);
+};
+
+renderTable();

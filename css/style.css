@@ -63,6 +63,10 @@ a:hover {
   border-bottom: darkcyan 2px solid;
 }
 
+table, th, td {
+  border: 1px steelblue solid;
+}
+
 #data {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: steelblue;
