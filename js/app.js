@@ -34,7 +34,7 @@ class Store {
     for (let i = 1; i < 9; i++) {
       timeStrings.push(`${i}:00pm`);
     }
-    timeStrings.push('Total');
+    timeStrings.push('Daily Location Total');
     return timeStrings;
   }
 
