@@ -54,13 +54,17 @@ li a {
 }
 
 a:hover {
-  color: steelblue;
+  color: darksalmon;
 }
 
 .active {
-  color: darksalmon;
-  /* color: steelblue; */
-  /* border-bottom: darkcyan 2px solid; */
+  /* color: darksalmon; */
+  color: darkcyan;
+  border-bottom: darkcyan 2px solid;
+}
+
+table, th, td {
+  border: 1px steelblue solid;
 }
 
 #data {
