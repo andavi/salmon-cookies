@@ -1,51 +1,22 @@
 'use strict';
 
+// store constructor
+class Store {
+  constructor(location, min, max, avgCookies) {
+    this.location = location;
+    this.min = min;
+    this.max = max;
+    this.avgCookies = avgCookies;
+    this.customersPerHour = () => Math.random() * (this.max - this.min) + this.min;
+  }
+}
+
 // stores
-var firstAndPike = {
-  location: '1st and Pike',
-  min: 23,
-  max: 65,
-  avgCookies: 6.3,
-  customersPerHour: function() {
-    return Math.random() * (this.max - this.min) + this.min;
-  }
-};
-var seaTac = {
-  location: 'SeaTac Airport',
-  min: 3,
-  max: 24,
-  avgCookies: 1.2,
-  customersPerHour: function() {
-    return Math.random() * (this.max - this.min) + this.min;
-  }
-};
-var seattleCenter = {
-  location: 'Seattle Center',
-  min: 11,
-  max: 38,
-  avgCookies: 3.7,
-  customersPerHour: function() {
-    return Math.random() * (this.max - this.min) + this.min;
-  }
-};
-var capitolHill = {
-  location: 'Capitol Hill',
-  min: 20,
-  max: 38,
-  avgCookies: 2.3,
-  customersPerHour: function() {
-    return Math.random() * (this.max - this.min) + this.min;
-  }
-};
-var alki = {
-  location: 'Alki',
-  min: 2,
-  max: 16,
-  avgCookies: 4.6,
-  customersPerHour: function() {
-    return Math.random() * (this.max - this.min) + this.min;
-  }
-};
+var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
+var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
+var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
+var capitolHill = new Store('Capitol Hill', 20, 30, 2.3);
+var alki = new Store('Alki', 2, 16, 4.6);
 
 var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
