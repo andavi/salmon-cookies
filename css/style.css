@@ -54,6 +54,8 @@ a:hover {
 
 .active {
   color: darksalmon;
+  /* color: steelblue; */
+  /* border-bottom: darkcyan 2px solid; */
 }
 
 #data {
