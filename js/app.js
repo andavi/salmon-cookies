@@ -7,7 +7,10 @@ class Store {
     this.min = min;
     this.max = max;
     this.avgCookies = avgCookies;
-    this.customersPerHour = () => Math.random() * (this.max - this.min) + this.min;
+  }
+
+  customersPerHour() {
+    return Math.random() * (this.max - this.min) + this.min;
   }
 }
 
@@ -24,15 +27,14 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 // generate cookies/hour arrays and totals
 var generateCookiesPerHour = store => {
-  var cookiesPerHour = [];
+  store.cookiesPerHour = [];
   for (let i = 0; i < 15; i++) {
-    cookiesPerHour.push(Math.round(store.customersPerHour() * store.avgCookies));
+    store.cookiesPerHour.push(Math.round(store.customersPerHour() * store.avgCookies));
   }
-  cookiesPerHour.push(cookiesPerHour.reduce((a, b) => a + b));
-  return cookiesPerHour;
+  store.cookiesPerHour.push(store.cookiesPerHour.reduce((a, b) => a + b));
 };
 
-stores.forEach(store => store.cookiesPerHour = generateCookiesPerHour(store));
+stores.forEach(store => generateCookiesPerHour(store));
 
 
 // generate time strings array
@@ -52,24 +54,24 @@ var generateTimes = () => {
 Store.prototype.times = generateTimes();
 
 
-// generate html and append
+// generate unordered list html and append
 Store.prototype.data = document.getElementById('data');
 
-var renderUL = store => {
+Store.prototype.renderUL = function() {
   var div = document.createElement('div');
   var h3 = document.createElement('h3');
-  h3.textContent = store.location;
+  h3.textContent = this.location;
 
   var ul = document.createElement('ul');
-  store.cookiesPerHour.forEach((n, i) => {
+  this.cookiesPerHour.forEach((n, i) => {
     var li = document.createElement('li');
-    li.textContent = store.times[i] + n + ' cookies';
+    li.textContent = this.times[i] + n + ' cookies';
     ul.appendChild(li);
   });
 
   div.appendChild(h3);
   div.appendChild(ul);
-  store.data.appendChild(div);
+  this.data.appendChild(div);
 };
 
-stores.forEach(store => renderUL(store));
+stores.forEach(store => store.renderUL());
