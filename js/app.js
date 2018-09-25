@@ -7,7 +7,10 @@ class Store {
     this.min = min;
     this.max = max;
     this.avgCookies = avgCookies;
-    this.customersPerHour = () => Math.random() * (this.max - this.min) + this.min;
+  }
+
+  customersPerHour() {
+    return Math.random() * (this.max - this.min) + this.min;
   }
 }
 
@@ -23,20 +26,19 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 
 // generate cookies/hour arrays and totals
-var generateCookiesPerHour = store => {
-  var cookiesPerHour = [];
+Store.prototype.generateCookiesPerHour = function() {
+  this.cookiesPerHour = [];
   for (let i = 0; i < 15; i++) {
-    cookiesPerHour.push(Math.round(store.customersPerHour() * store.avgCookies));
+    this.cookiesPerHour.push(Math.round(this.customersPerHour() * this.avgCookies));
   }
-  cookiesPerHour.push(cookiesPerHour.reduce((a, b) => a + b));
-  return cookiesPerHour;
+  this.cookiesPerHour.push(this.cookiesPerHour.reduce((a, b) => a + b));
 };
 
-stores.forEach(store => store.cookiesPerHour = generateCookiesPerHour(store));
+stores.forEach(store => store.generateCookiesPerHour());
 
 
 // generate time strings array
-var generateTimes = () => {
+Store.prototype.generateTimes = () => {
   var times = [];
   for (let i = 6; i < 12; i++) {
     times.push(i + 'am: ');
@@ -49,27 +51,27 @@ var generateTimes = () => {
   return times;
 };
 
-Store.prototype.times = generateTimes();
+Store.prototype.times = Store.prototype.generateTimes();
 
 
-// generate html and append
+// generate unordered list html and append
 Store.prototype.data = document.getElementById('data');
 
-var renderUL = store => {
+Store.prototype.renderUL = function() {
   var div = document.createElement('div');
   var h3 = document.createElement('h3');
-  h3.textContent = store.location;
+  h3.textContent = this.location;
 
   var ul = document.createElement('ul');
-  store.cookiesPerHour.forEach((n, i) => {
+  this.cookiesPerHour.forEach((n, i) => {
     var li = document.createElement('li');
-    li.textContent = store.times[i] + n + ' cookies';
+    li.textContent = this.times[i] + n + ' cookies';
     ul.appendChild(li);
   });
 
   div.appendChild(h3);
   div.appendChild(ul);
-  store.data.appendChild(div);
+  this.data.appendChild(div);
 };
 
-stores.forEach(store => renderUL(store));
+stores.forEach(store => store.renderUL());
