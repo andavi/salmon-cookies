@@ -15,7 +15,7 @@ class Store {
 var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
 var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
-var capitolHill = new Store('Capitol Hill', 20, 30, 2.3);
+var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
 var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
@@ -25,7 +25,7 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 var generateCookiesPerHour = store => {
   var cookiesPerHour = [];
   for (let i = 0; i < 15; i++) {
-    cookiesPerHour.push(Math.round(store.customersPerHour()));
+    cookiesPerHour.push(Math.round(store.customersPerHour() * store.avgCookies));
   }
   cookiesPerHour.push(cookiesPerHour.reduce((a, b) => a + b));
   return cookiesPerHour;
