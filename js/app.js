@@ -74,20 +74,25 @@ stores.forEach(store => store.generateCookiesPerHour());
 // generate unordered list html and append
 // stores.forEach(store => store.renderUL());
 
+
 // generate totals
 var generateTotals = stores => {
   var totals = [];
-  for (let i = 0; i < stores[0].cookiesPerHour.length; i++) {
-    totals[i] = stores.reduce((a, store) => a + store.cookiesPerHour[i]);
+  for (let i = 0; i < Store.prototype.timeStrings.length; i++) {
+    totals[i] = stores.reduce((a, store) => {
+      return a + store.cookiesPerHour[i];
+    }, 0);
   }
   return totals;
 };
 var totals = generateTotals(stores);
-console.log(totals);
+
 
 // genereate table html and append
 var renderTable = () => {
   var table = document.createElement('table');
+
+  // top row - times
   var trTimes = document.createElement('tr');
   trTimes.appendChild(document.createElement('th'));
   Store.prototype.timeStrings.forEach(timeStr => {
@@ -97,6 +102,7 @@ var renderTable = () => {
   });
   table.appendChild(trTimes);
 
+  // middle rows - cookies per hour
   stores.forEach(store => {
     var tr = document.createElement('tr');
     var th = document.createElement('th');
@@ -110,7 +116,19 @@ var renderTable = () => {
     table.appendChild(tr);
   });
 
-  
+  // bottom row - totals
+  var trTotals = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = 'Totals';
+  trTotals.appendChild(th);
+  totals.forEach(total => {
+    var td = document.createElement('td');
+    td.textContent = total;
+    trTotals.appendChild(td);
+  });
+  table.appendChild(trTotals);
+
+  // final append
   Store.prototype.dataDiv.appendChild(table);
 };
 
