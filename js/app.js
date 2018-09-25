@@ -11,7 +11,8 @@ class Store {
   }
 }
 
-// stores
+
+// create stores
 var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
 var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
@@ -35,21 +36,26 @@ stores.forEach(store => store.cookiesPerHour = generateCookiesPerHour(store));
 
 
 // generate time strings array
-var times = [];
-for (let i = 6; i < 12; i++) {
-  times.push(i + 'am: ');
-}
-times.push('12pm: ');
-for (let i = 1; i < 9; i++) {
-  times.push(i + 'pm: ');
-}
-times.push('Total: ');
+var generateTimes = () => {
+  var times = [];
+  for (let i = 6; i < 12; i++) {
+    times.push(i + 'am: ');
+  }
+  times.push('12pm: ');
+  for (let i = 1; i < 9; i++) {
+    times.push(i + 'pm: ');
+  }
+  times.push('Total: ');
+  return times;
+};
+
+Store.prototype.times = generateTimes();
 
 
 // generate html and append
-var data = document.getElementById('data');
+Store.prototype.data = document.getElementById('data');
 
-stores.forEach(store => {
+var renderUL = store => {
   var div = document.createElement('div');
   var h3 = document.createElement('h3');
   h3.textContent = store.location;
@@ -57,11 +63,13 @@ stores.forEach(store => {
   var ul = document.createElement('ul');
   store.cookiesPerHour.forEach((n, i) => {
     var li = document.createElement('li');
-    li.textContent = times[i] + n + ' cookies';
+    li.textContent = store.times[i] + n + ' cookies';
     ul.appendChild(li);
   });
 
   div.appendChild(h3);
   div.appendChild(ul);
-  data.appendChild(div);
-});
+  store.data.appendChild(div);
+};
+
+stores.forEach(store => renderUL(store));
