@@ -26,19 +26,19 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 
 // generate cookies/hour arrays and totals
-var generateCookiesPerHour = store => {
-  store.cookiesPerHour = [];
+Store.prototype.generateCookiesPerHour = function() {
+  this.cookiesPerHour = [];
   for (let i = 0; i < 15; i++) {
-    store.cookiesPerHour.push(Math.round(store.customersPerHour() * store.avgCookies));
+    this.cookiesPerHour.push(Math.round(this.customersPerHour() * this.avgCookies));
   }
-  store.cookiesPerHour.push(store.cookiesPerHour.reduce((a, b) => a + b));
+  this.cookiesPerHour.push(this.cookiesPerHour.reduce((a, b) => a + b));
 };
 
-stores.forEach(store => generateCookiesPerHour(store));
+stores.forEach(store => store.generateCookiesPerHour());
 
 
 // generate time strings array
-var generateTimes = () => {
+Store.prototype.generateTimes = () => {
   var times = [];
   for (let i = 6; i < 12; i++) {
     times.push(i + 'am: ');
@@ -51,7 +51,7 @@ var generateTimes = () => {
   return times;
 };
 
-Store.prototype.times = generateTimes();
+Store.prototype.times = Store.prototype.generateTimes();
 
 
 // generate unordered list html and append
