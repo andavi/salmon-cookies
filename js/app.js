@@ -22,17 +22,17 @@ class Store {
     this.cookiesPerHour.push(this.cookiesPerHour.reduce((a, b) => a + b));
   }
 
-  get times() {
-    var times = [];
+  get timeStrings() {
+    var timeStrings = [];
     for (let i = 6; i < 12; i++) {
-      times.push(i + 'am: ');
+      timeStrings.push(i + 'am: ');
     }
-    times.push('12pm: ');
+    timeStrings.push('12pm: ');
     for (let i = 1; i < 9; i++) {
-      times.push(i + 'pm: ');
+      timeStrings.push(i + 'pm: ');
     }
-    times.push('Total: ');
-    return times;
+    timeStrings.push('Total: ');
+    return timeStrings;
   }
 
   renderUL() {
@@ -43,7 +43,7 @@ class Store {
     var ul = document.createElement('ul');
     this.cookiesPerHour.forEach((n, i) => {
       var li = document.createElement('li');
-      li.textContent = this.times[i] + n + ' cookies';
+      li.textContent = this.timeStrings[i] + n + ' cookies';
       ul.appendChild(li);
     });
 
