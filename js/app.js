@@ -35,15 +35,19 @@ stores.forEach(store => store.cookiesPerHour = generateCookiesPerHour(store));
 
 
 // generate time strings array
-var times = [];
-for (let i = 6; i < 12; i++) {
-  times.push(i + 'am: ');
-}
-times.push('12pm: ');
-for (let i = 1; i < 9; i++) {
-  times.push(i + 'pm: ');
-}
-times.push('Total: ');
+var generateTimes = () => {
+  var times = [];
+  for (let i = 6; i < 12; i++) {
+    times.push(i + 'am: ');
+  }
+  times.push('12pm: ');
+  for (let i = 1; i < 9; i++) {
+    times.push(i + 'pm: ');
+  }
+  times.push('Total: ');
+  return times;
+};
+Store.prototype.times = generateTimes();
 
 
 // generate html and append
@@ -57,7 +61,7 @@ stores.forEach(store => {
   var ul = document.createElement('ul');
   store.cookiesPerHour.forEach((n, i) => {
     var li = document.createElement('li');
-    li.textContent = times[i] + n + ' cookies';
+    li.textContent = store.times[i] + n + ' cookies';
     ul.appendChild(li);
   });
 
