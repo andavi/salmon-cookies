@@ -11,7 +11,8 @@ class Store {
   }
 }
 
-// stores
+
+// create stores
 var firstAndPike = new Store('1st and Pike', 23, 65, 6.3);
 var seaTac = new Store('SeaTac Airport', 3, 24, 1.2);
 var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
@@ -47,13 +48,14 @@ var generateTimes = () => {
   times.push('Total: ');
   return times;
 };
+
 Store.prototype.times = generateTimes();
 
 
 // generate html and append
-var data = document.getElementById('data');
+Store.prototype.data = document.getElementById('data');
 
-stores.forEach(store => {
+var renderUL = store => {
   var div = document.createElement('div');
   var h3 = document.createElement('h3');
   h3.textContent = store.location;
@@ -67,5 +69,7 @@ stores.forEach(store => {
 
   div.appendChild(h3);
   div.appendChild(ul);
-  data.appendChild(div);
-});
+  store.data.appendChild(div);
+};
+
+stores.forEach(store => renderUL(store));
