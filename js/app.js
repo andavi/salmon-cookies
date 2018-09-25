@@ -68,5 +68,5 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 stores.forEach(store => store.generateCookiesPerHour());
 
 
-// generate unordered list html and append
+// generate html and append
 stores.forEach(store => store.renderUL());
