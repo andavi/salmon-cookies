@@ -148,7 +148,7 @@ Store.prototype.submitHandler = function(event) {
   var max = parseInt(event.target.max.value);
   var avg = parseFloat(event.target.avg.value);
 
-  // create store and create new totals
+  // create store and calculate new totals
   var newStore = new Store(location, min, max, avg);
   newStore.generateCookiesPerHour();
   stores.push(newStore);
