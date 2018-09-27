@@ -94,7 +94,7 @@ var totals = generateTotals(stores);
 
 // genereate table html and append
 Store.prototype.renderTable = function() {
-  var table = document.createElement('table');
+  Store.prototype.table = document.createElement('table');
 
   // top row - times
   var trTimes = document.createElement('tr');
@@ -104,44 +104,30 @@ Store.prototype.renderTable = function() {
     th.textContent = timeStr;
     trTimes.appendChild(th);
   });
-  table.appendChild(trTimes);
+  this.table.appendChild(trTimes);
 
   // middle rows - cookies per hour
-  stores.forEach(store => appendStore(store, table));
+  stores.forEach(store => this.appendRow(store.location, store.cookiesPerHour));
 
   // bottom row - totals
-  appendTotals(table);
+  this.appendRow('Totals', totals);
 
   // final append
-  Store.prototype.dataDiv.appendChild(table);
+  Store.prototype.dataDiv.appendChild(this.table);
 };
 
-// append store row to table
-var appendStore = (store, table) => {
+// create row with array and append to table
+Store.prototype.appendRow = function(name, arr) {
   var tr = document.createElement('tr');
   var th = document.createElement('th');
-  th.textContent = store.location;
+  th.textContent = name;
   tr.appendChild(th);
-  store.cookiesPerHour.forEach(n => {
+  arr.forEach(n => {
     var td = document.createElement('td');
     td.textContent = n;
     tr.appendChild(td);
   });
-  table.appendChild(tr);
-};
-
-// append totals row to table
-var appendTotals = table => {
-  var trTotals = document.createElement('tr');
-  var th = document.createElement('th');
-  th.textContent = 'Totals';
-  trTotals.appendChild(th);
-  totals.forEach(total => {
-    var td = document.createElement('td');
-    td.textContent = total;
-    trTotals.appendChild(td);
-  });
-  table.appendChild(trTotals);
+  this.table.appendChild(tr);
 };
 
 // invoke
