@@ -14,7 +14,7 @@ class Store {
   }
 
   get customersPerHour() {
-    return Math.random() * (this.max - this.min) + this.min;
+    return Math.random() * (this.max - this.min + 1) + this.min;
   }
 
   generateCookiesPerHour() {
