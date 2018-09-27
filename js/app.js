@@ -29,7 +29,7 @@ class Store {
     var timeStrings = [];
     for (let i = start; i < start + hours; i++) {
       const str = i % 24 < 12 ? 'am' : 'pm';
-      timeStrings.push((i % 12 || '12') +  ':00' + str);
+      timeStrings.push((i % 12 || '12') + ':00' + str);
     }
     timeStrings.push('Daily Location Total');
     return timeStrings;
