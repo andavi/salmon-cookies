@@ -155,7 +155,7 @@ Store.prototype.submitHandler = function(event) {
   totals = generateTotals(stores);
 
   // remove last table row
-  newStore.table.removeChild(newStore.table.lastChild);
+  newStore.table.lastChild.remove();
 
   // append store and new totals
   newStore.appendRow(newStore.location, newStore.cookiesPerHour);
