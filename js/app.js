@@ -138,18 +138,30 @@ Store.prototype.renderTable();
 // FORM
 // ================================================================
 
-var submitHandler = (event) => {
+Store.prototype.submitHandler = function(event) {
   event.preventDefault();
   event.stopPropagation();
+
+  // collect inputs
   var location = event.target.location.value;
-  var min = event.target.min.value;
-  var max = event.target.max.value;
-  var avg = event.target.avg.value;
-  console.log(location, min, max, avg);
+  var min = parseInt(event.target.min.value);
+  var max = parseInt(event.target.max.value);
+  var avg = parseFloat(event.target.avg.value);
 
+  // create store and create new totals
+  var newStore = new Store(location, min, max, avg);
+  newStore.generateCookiesPerHour();
+  stores.push(newStore);
+  totals = generateTotals(stores);
 
+  // remove last table row
+  newStore.table.removeChild(newStore.table.lastChild);
+
+  // append store and new totals
+  newStore.appendRow(newStore.location, newStore.cookiesPerHour);
+  newStore .appendRow('Totals', totals);
 };
 
 var form = document.getElementById('add-store');
 
-form.addEventListener('submit', submitHandler);
+form.addEventListener('submit', Store.prototype.submitHandler);
