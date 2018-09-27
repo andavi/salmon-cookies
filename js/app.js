@@ -67,13 +67,17 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 // generate cookies per hour arrays and totals
 stores.forEach(store => store.generateCookiesPerHour());
 
+// generate time strings array
+Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
+
 
 // generate unordered list html and append
 // stores.forEach(store => store.renderUL());
 
 
-// generate time strings array
-Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
+// ================================================================
+// TABLE
+// ================================================================
 
 
 // generate totals array
@@ -135,3 +139,18 @@ Store.prototype.renderTable = function() {
 
 // invoke
 Store.prototype.renderTable();
+
+
+// ================================================================
+// FORM
+// ================================================================
+
+var submitHandler = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  console.log(event.target.avg.value);
+};
+
+var form = document.getElementById('add-store');
+
+form.addEventListener('submit', submitHandler);
