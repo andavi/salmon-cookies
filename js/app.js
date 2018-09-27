@@ -79,7 +79,6 @@ Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
 // TABLE
 // ================================================================
 
-
 // generate totals array
 var generateTotals = stores => {
   var totals = [];
@@ -108,20 +107,31 @@ Store.prototype.renderTable = function() {
   table.appendChild(trTimes);
 
   // middle rows - cookies per hour
-  stores.forEach(store => {
-    var tr = document.createElement('tr');
-    var th = document.createElement('th');
-    th.textContent = store.location;
-    tr.appendChild(th);
-    store.cookiesPerHour.forEach(n => {
-      var td = document.createElement('td');
-      td.textContent = n;
-      tr.appendChild(td);
-    });
-    table.appendChild(tr);
-  });
+  stores.forEach(store => appendStore(store, table));
 
   // bottom row - totals
+  appendTotals(table);
+
+  // final append
+  Store.prototype.dataDiv.appendChild(table);
+};
+
+// append store row to table
+var appendStore = (store, table) => {
+  var tr = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = store.location;
+  tr.appendChild(th);
+  store.cookiesPerHour.forEach(n => {
+    var td = document.createElement('td');
+    td.textContent = n;
+    tr.appendChild(td);
+  });
+  table.appendChild(tr);
+};
+
+// append totals row to table
+var appendTotals = table => {
   var trTotals = document.createElement('tr');
   var th = document.createElement('th');
   th.textContent = 'Totals';
@@ -132,9 +142,6 @@ Store.prototype.renderTable = function() {
     trTotals.appendChild(td);
   });
   table.appendChild(trTotals);
-
-  // final append
-  Store.prototype.dataDiv.appendChild(table);
 };
 
 // invoke
@@ -148,7 +155,13 @@ Store.prototype.renderTable();
 var submitHandler = (event) => {
   event.preventDefault();
   event.stopPropagation();
-  console.log(event.target.avg.value);
+  var location = event.target.location.value;
+  var min = event.target.min.value;
+  var max = event.target.max.value;
+  var avg = event.target.avg.value;
+  console.log(location, min, max, avg);
+
+
 };
 
 var form = document.getElementById('add-store');
