@@ -138,30 +138,34 @@ Store.prototype.renderTable();
 // FORM
 // ================================================================
 
-Store.prototype.submitHandler = function(event) {
+var submitHandler = function(event) {
   event.preventDefault();
   event.stopPropagation();
 
-  // collect inputs
+  // collect and convert inputs
   var location = event.target.location.value;
-  var min = parseInt(event.target.min.value);
-  var max = parseInt(event.target.max.value);
-  var avg = parseFloat(event.target.avg.value);
+  var min = Number(event.target.min.value);
+  var max = Number(event.target.max.value);
+  var avg = Number(event.target.avg.value);
 
-  // create store and calculate new totals
-  var newStore = new Store(location, min, max, avg);
-  newStore.generateCookiesPerHour();
-  stores.push(newStore);
-  totals = generateTotals(stores);
+  // ensure location not used already
+  if (!stores.map(store => store.location).includes(location)) {
 
-  // remove last table row
-  newStore.table.lastChild.remove();
+    // create store and calculate new totals
+    var newStore = new Store(location, min, max, avg);
+    newStore.generateCookiesPerHour();
+    stores.push(newStore);
+    totals = generateTotals(stores);
 
-  // append store and new totals
-  newStore.appendRow(newStore.location, newStore.cookiesPerHour);
-  newStore .appendRow('Totals', totals);
+    // remove last table row
+    newStore.table.lastChild.remove();
+
+    // append store and new totals
+    newStore.appendRow(newStore.location, newStore.cookiesPerHour);
+    newStore .appendRow('Totals', totals);
+  }
 };
 
 var form = document.getElementById('add-store');
 
-form.addEventListener('submit', Store.prototype.submitHandler);
+form.addEventListener('submit', submitHandler);
