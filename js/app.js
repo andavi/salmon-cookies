@@ -67,14 +67,17 @@ var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 // generate cookies per hour arrays and totals
 stores.forEach(store => store.generateCookiesPerHour());
 
+// generate time strings array
+Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
+
 
 // generate unordered list html and append
 // stores.forEach(store => store.renderUL());
 
 
-// generate time strings array
-Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
-
+// ================================================================
+// TABLE
+// ================================================================
 
 // generate totals array
 var generateTotals = stores => {
@@ -91,7 +94,7 @@ var totals = generateTotals(stores);
 
 // genereate table html and append
 Store.prototype.renderTable = function() {
-  var table = document.createElement('table');
+  Store.prototype.table = document.createElement('table');
 
   // top row - times
   var trTimes = document.createElement('tr');
@@ -101,37 +104,64 @@ Store.prototype.renderTable = function() {
     th.textContent = timeStr;
     trTimes.appendChild(th);
   });
-  table.appendChild(trTimes);
+  this.table.appendChild(trTimes);
 
   // middle rows - cookies per hour
-  stores.forEach(store => {
-    var tr = document.createElement('tr');
-    var th = document.createElement('th');
-    th.textContent = store.location;
-    tr.appendChild(th);
-    store.cookiesPerHour.forEach(n => {
-      var td = document.createElement('td');
-      td.textContent = n;
-      tr.appendChild(td);
-    });
-    table.appendChild(tr);
-  });
+  stores.forEach(store => this.appendRow(store.location, store.cookiesPerHour));
 
   // bottom row - totals
-  var trTotals = document.createElement('tr');
-  var th = document.createElement('th');
-  th.textContent = 'Totals';
-  trTotals.appendChild(th);
-  totals.forEach(total => {
-    var td = document.createElement('td');
-    td.textContent = total;
-    trTotals.appendChild(td);
-  });
-  table.appendChild(trTotals);
+  this.appendRow('Totals', totals);
 
   // final append
-  Store.prototype.dataDiv.appendChild(table);
+  Store.prototype.dataDiv.appendChild(this.table);
+};
+
+// create row with array and append to table
+Store.prototype.appendRow = function(name, arr) {
+  var tr = document.createElement('tr');
+  var th = document.createElement('th');
+  th.textContent = name;
+  tr.appendChild(th);
+  arr.forEach(n => {
+    var td = document.createElement('td');
+    td.textContent = n;
+    tr.appendChild(td);
+  });
+  this.table.appendChild(tr);
 };
 
 // invoke
 Store.prototype.renderTable();
+
+
+// ================================================================
+// FORM
+// ================================================================
+
+Store.prototype.submitHandler = function(event) {
+  event.preventDefault();
+  event.stopPropagation();
+
+  // collect inputs
+  var location = event.target.location.value;
+  var min = parseInt(event.target.min.value);
+  var max = parseInt(event.target.max.value);
+  var avg = parseFloat(event.target.avg.value);
+
+  // create store and calculate new totals
+  var newStore = new Store(location, min, max, avg);
+  newStore.generateCookiesPerHour();
+  stores.push(newStore);
+  totals = generateTotals(stores);
+
+  // remove last table row
+  newStore.table.lastChild.remove();
+
+  // append store and new totals
+  newStore.appendRow(newStore.location, newStore.cookiesPerHour);
+  newStore .appendRow('Totals', totals);
+};
+
+var form = document.getElementById('add-store');
+
+form.addEventListener('submit', Store.prototype.submitHandler);
