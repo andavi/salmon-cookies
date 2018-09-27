@@ -25,14 +25,11 @@ class Store {
     this.cookiesPerHour.push(this.cookiesPerHour.reduce((a, b) => a + b));
   }
 
-  get timeStrings() {
+  generateTimeStrings(start, hours) {
     var timeStrings = [];
-    for (let i = 6; i < 12; i++) {
-      timeStrings.push(`${i}:00am`);
-    }
-    timeStrings.push('12:00pm');
-    for (let i = 1; i < 9; i++) {
-      timeStrings.push(`${i}:00pm`);
+    for (let i = start; i < start + hours; i++) {
+      const str = i % 24 < 12 ? 'am' : 'pm';
+      timeStrings.push((i % 12 || '12') +  ':00' + str);
     }
     timeStrings.push('Daily Location Total');
     return timeStrings;
@@ -67,7 +64,7 @@ var alki = new Store('Alki', 2, 16, 4.6);
 var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 
-// generate cookies/hour arrays and totals
+// generate cookies per hour arrays and totals
 stores.forEach(store => store.generateCookiesPerHour());
 
 
@@ -75,7 +72,11 @@ stores.forEach(store => store.generateCookiesPerHour());
 // stores.forEach(store => store.renderUL());
 
 
-// generate totals
+// generate time strings array
+Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
+
+
+// generate totals array
 var generateTotals = stores => {
   var totals = [];
   for (let i = 0; i < Store.prototype.timeStrings.length; i++) {
@@ -132,4 +133,5 @@ var renderTable = () => {
   Store.prototype.dataDiv.appendChild(table);
 };
 
+// invoke
 renderTable();
