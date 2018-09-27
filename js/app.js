@@ -90,7 +90,7 @@ var totals = generateTotals(stores);
 
 
 // genereate table html and append
-var renderTable = () => {
+Store.prototype.renderTable = function() {
   var table = document.createElement('table');
 
   // top row - times
@@ -134,4 +134,4 @@ var renderTable = () => {
 };
 
 // invoke
-renderTable();
+Store.prototype.renderTable();
