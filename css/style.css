@@ -1,7 +1,7 @@
 body {
   background-color: aliceblue;
   font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-  color: darkslategray;
+  color: steelblue;
   width: 90%;
   margin: auto;
 }
@@ -10,6 +10,15 @@ h1 {
   font-family: 'Satisfy', cursive;
   font-size: 300%;
   color: darkcyan;
+  text-align: center;
+}
+
+p {
+  font-size: 125%;
+}
+
+.subtitle {
+  font-size: 150%;
   text-align: center;
 }
 
@@ -58,18 +67,17 @@ a:hover {
 }
 
 .active {
-  /* color: darksalmon; */
   color: darkcyan;
   border-bottom: darkcyan 2px solid;
 }
 
 table, th, td {
-  border: 1px steelblue solid;
+  border: 1px darkslategray solid;
 }
 
 #data {
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-  color: steelblue;
+  font-family: Arial, Helvetica, sans-serif;
+  color: darkslategray;
   text-align: center;
 }
 
@@ -78,7 +86,3 @@ table, th, td {
   margin: 30px;
 }
 
-.subtitle {
-  font-size: 150%;
-  text-align: center;
-}
