@@ -71,8 +71,30 @@ a:hover {
   border-bottom: darkcyan 2px solid;
 }
 
-table, th, td {
-  border: 1px darkslategray solid;
+table {
+  /* border: 1px darkslategray solid; */
+  margin: 20px;
+}
+
+th {
+  font-weight: 600;
+}
+
+tr:first-child>th {
+  border-bottom: 1px solid darkslategray;
+}
+
+th:first-child {
+  border-right: 1px solid darkslategray;
+}
+
+tr:nth-child(odd) {
+  background-color: white;
+}
+
+tr:hover {
+  color: white;
+  background-color: lightsteelblue;
 }
 
 #data {
