@@ -31,6 +31,16 @@ class Store {
     return timeStrings;
   }
 
+  static generateTotals(stores) {
+    var totals = [];
+    for (let i = 0; i < 16; i++) {
+      totals[i] = stores.reduce((a, store) => {
+        return a + store.cookiesPerHour[i];
+      }, 0);
+    }
+    return totals;
+  }
+
   renderUL() {
     var div = document.createElement('div');
     var h3 = document.createElement('h3');
@@ -57,10 +67,17 @@ var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
-Store.stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
+var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 // generate cookies per hour arrays and totals
-Store.stores.forEach(store => store.generateCookiesPerHour());
+
+
+// store in localStorage if none exists
+if (!localStorage.stores || !localStorage.totals) {
+  stores.forEach(store => store.generateCookiesPerHour());
+  localStorage.totals = JSON.stringify(Store.generateTotals(stores));
+  localStorage.stores = JSON.stringify(stores);
+}
 
 // generate time strings array
 Store.timeStrings = Store.generateTimeStrings(6, 15);
@@ -76,21 +93,9 @@ Store.dataDiv = document.getElementById('data');
 // TABLE
 // ================================================================
 
-// generate totals array
-Store.generateTotals = stores => {
-  var totals = [];
-  for (let i = 0; i < Store.timeStrings.length; i++) {
-    totals[i] = stores.reduce((a, store) => {
-      return a + store.cookiesPerHour[i];
-    }, 0);
-  }
-  return totals;
-};
-Store.totals = Store.generateTotals(Store.stores);
-
 
 // genereate table html and append
-Store.renderTable = function() {
+Store.renderTable = function(stores, totals) {
   Store.table = document.createElement('table');
 
   // top row - times
@@ -104,10 +109,10 @@ Store.renderTable = function() {
   Store.table.appendChild(trTimes);
 
   // middle rows - cookies per hour
-  Store.stores.forEach(store => Store.appendRow(store.location, store.cookiesPerHour));
+  stores.forEach(store => Store.appendRow(store.location, store.cookiesPerHour));
 
   // bottom row - totals
-  Store.appendRow('Totals', Store.totals);
+  Store.appendRow('Totals', totals);
 
   // final append
   Store.dataDiv.appendChild(Store.table);
@@ -127,8 +132,12 @@ Store.appendRow = function(name, arr) {
   Store.table.appendChild(tr);
 };
 
+// retrieve stores from local storage 
+stores = JSON.parse(localStorage.stores);
+var totals = JSON.parse(localStorage.totals);
+
 // invoke
-Store.renderTable();
+Store.renderTable(stores, totals);
 
 
 // ================================================================
@@ -145,22 +154,31 @@ Store.submitHandler = function(event) {
   var max = Number(event.target.max.value);
   var avg = Number(event.target.avg.value);
 
+  // retrieve stores and totals from local storage
+  var stores = JSON.parse(localStorage.stores);
+  var totals = JSON.parse(localStorage.totals);
+
   // ensure location is not used already
-  if (!Store.stores.map(store => store.location).includes(location)) {
+  if (!stores.map(store => store.location).includes(location)) {
 
     // create store and calculate new totals
     var newStore = new Store(location, min, max, avg);
     newStore.generateCookiesPerHour();
-    Store.stores.push(newStore);
-    Store.totals = Store.generateTotals(Store.stores);
+    stores.push(newStore);
+    totals = Store.generateTotals(stores);
 
     // remove last table row
     Store.table.lastChild.remove();
 
     // append store and new totals
     Store.appendRow(newStore.location, newStore.cookiesPerHour);
-    Store.appendRow('Totals', Store.totals);
+    Store.appendRow('Totals', totals);
+
+    // update stores and totals in local storage
+    localStorage.stores = JSON.stringify(stores);
+    localStorage.totals = JSON.stringify(totals);
   }
+
 };
 
 Store.form = document.getElementById('add-store');
