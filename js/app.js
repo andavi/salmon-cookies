@@ -9,10 +9,6 @@ class Store {
     this.avgCookies = avgCookies;
   }
 
-  get dataDiv() {
-    return document.getElementById('data');
-  }
-
   get customersPerHour() {
     return Math.random() * (this.max - this.min + 1) + this.min;
   }
@@ -25,7 +21,7 @@ class Store {
     this.cookiesPerHour.push(this.cookiesPerHour.reduce((a, b) => a + b));
   }
 
-  generateTimeStrings(start, hours) {
+  static generateTimeStrings(start, hours) {
     var timeStrings = [];
     for (let i = start; i < start + hours; i++) {
       const str = i % 24 < 12 ? 'am' : 'pm';
@@ -43,13 +39,13 @@ class Store {
     var ul = document.createElement('ul');
     this.cookiesPerHour.forEach((n, i) => {
       var li = document.createElement('li');
-      li.textContent = this.timeStrings[i] + n + ' cookies';
+      li.textContent = Store.timeStrings[i] + n + ' cookies';
       ul.appendChild(li);
     });
 
     div.appendChild(h3);
     div.appendChild(ul);
-    this.dataDiv.appendChild(div);
+    Store.dataDiv.appendChild(div);
   }
 }
 
@@ -61,18 +57,19 @@ var seattleCenter = new Store('Seattle Center', 11, 38, 3.7);
 var capitolHill = new Store('Capitol Hill', 20, 38, 2.3);
 var alki = new Store('Alki', 2, 16, 4.6);
 
-var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
-
+Store.stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
 // generate cookies per hour arrays and totals
-stores.forEach(store => store.generateCookiesPerHour());
+Store.stores.forEach(store => store.generateCookiesPerHour());
 
 // generate time strings array
-Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
+Store.timeStrings = Store.generateTimeStrings(6, 15);
 
+// get data div
+Store.dataDiv = document.getElementById('data');
 
 // generate unordered list html and append
-// stores.forEach(store => store.renderUL());
+// Store.stores.forEach(store => store.renderUL());
 
 
 // ================================================================
@@ -80,44 +77,44 @@ Store.prototype.timeStrings = Store.prototype.generateTimeStrings(6, 15);
 // ================================================================
 
 // generate totals array
-var generateTotals = stores => {
+Store.generateTotals = stores => {
   var totals = [];
-  for (let i = 0; i < Store.prototype.timeStrings.length; i++) {
+  for (let i = 0; i < Store.timeStrings.length; i++) {
     totals[i] = stores.reduce((a, store) => {
       return a + store.cookiesPerHour[i];
     }, 0);
   }
   return totals;
 };
-var totals = generateTotals(stores);
+Store.totals = Store.generateTotals(Store.stores);
 
 
 // genereate table html and append
-Store.prototype.renderTable = function() {
-  Store.prototype.table = document.createElement('table');
+Store.renderTable = function() {
+  Store.table = document.createElement('table');
 
   // top row - times
   var trTimes = document.createElement('tr');
   trTimes.appendChild(document.createElement('th'));
-  Store.prototype.timeStrings.forEach(timeStr => {
+  Store.timeStrings.forEach(timeStr => {
     var th = document.createElement('th');
     th.textContent = timeStr;
     trTimes.appendChild(th);
   });
-  this.table.appendChild(trTimes);
+  Store.table.appendChild(trTimes);
 
   // middle rows - cookies per hour
-  stores.forEach(store => this.appendRow(store.location, store.cookiesPerHour));
+  Store.stores.forEach(store => Store.appendRow(store.location, store.cookiesPerHour));
 
   // bottom row - totals
-  this.appendRow('Totals', totals);
+  Store.appendRow('Totals', Store.totals);
 
   // final append
-  Store.prototype.dataDiv.appendChild(this.table);
+  Store.dataDiv.appendChild(Store.table);
 };
 
 // create row with array and append to table
-Store.prototype.appendRow = function(name, arr) {
+Store.appendRow = function(name, arr) {
   var tr = document.createElement('tr');
   var th = document.createElement('th');
   th.textContent = name;
@@ -127,18 +124,18 @@ Store.prototype.appendRow = function(name, arr) {
     td.textContent = n;
     tr.appendChild(td);
   });
-  this.table.appendChild(tr);
+  Store.table.appendChild(tr);
 };
 
 // invoke
-Store.prototype.renderTable();
+Store.renderTable();
 
 
 // ================================================================
 // FORM
 // ================================================================
 
-var submitHandler = function(event) {
+Store.submitHandler = function(event) {
   event.preventDefault();
   event.stopPropagation();
 
@@ -148,24 +145,24 @@ var submitHandler = function(event) {
   var max = Number(event.target.max.value);
   var avg = Number(event.target.avg.value);
 
-  // ensure location not used already
-  if (!stores.map(store => store.location).includes(location)) {
+  // ensure location is not used already
+  if (!Store.stores.map(store => store.location).includes(location)) {
 
     // create store and calculate new totals
     var newStore = new Store(location, min, max, avg);
     newStore.generateCookiesPerHour();
-    stores.push(newStore);
-    totals = generateTotals(stores);
+    Store.stores.push(newStore);
+    Store.totals = Store.generateTotals(Store.stores);
 
     // remove last table row
-    newStore.table.lastChild.remove();
+    Store.table.lastChild.remove();
 
     // append store and new totals
-    newStore.appendRow(newStore.location, newStore.cookiesPerHour);
-    newStore .appendRow('Totals', totals);
+    Store.appendRow(newStore.location, newStore.cookiesPerHour);
+    Store.appendRow('Totals', Store.totals);
   }
 };
 
-var form = document.getElementById('add-store');
+Store.form = document.getElementById('add-store');
 
-form.addEventListener('submit', submitHandler);
+Store.form.addEventListener('submit', Store.submitHandler);
