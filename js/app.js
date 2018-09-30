@@ -69,12 +69,14 @@ var alki = new Store('Alki', 2, 16, 4.6);
 
 var stores = [firstAndPike, seaTac, seattleCenter, capitolHill, alki];
 
-// generate cookies per hour arrays and totals
 
-
-// store in localStorage if none exists
+// check if stores and totals in local storage
 if (!localStorage.stores || !localStorage.totals) {
+
+  // generate cookies per hour arrays and totals
   stores.forEach(store => store.generateCookiesPerHour());
+
+  // save stores and totals in local storage
   localStorage.totals = JSON.stringify(Store.generateTotals(stores));
   localStorage.stores = JSON.stringify(stores);
 }
