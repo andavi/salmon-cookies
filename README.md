@@ -6,7 +6,8 @@ A website for the famous Salmon Cookies cafe franchise.
 
 * ~~Create table~~
 * ~~Implement form~~
-* Refactor app.js
+* ~~Refactor app.js~~
 * ~~Style table and form~~
+* Add images
 * Work on overall web page
 * Stretch excercises
