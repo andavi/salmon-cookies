@@ -13,12 +13,6 @@ h1 {
   text-align: center;
 }
 
-.subtitle {
-  color: rgb(59, 109, 150);
-  font-size: 170%;
-  text-align: center;
-}
-
 sup {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 25%;
@@ -179,4 +173,61 @@ button:hover {
 
 .quote {
   display: inline-block;
+}
+
+.subtitle {
+  color: rgb(59, 109, 150);
+  font-size: 170%;
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.about img {
+  width: 400px;
+  border: 2px solid steelblue;
+  border-radius: 10px;
+}
+
+.container {
+  display: inline-block;
+  position: relative;
+  height: 200px;
+}
+
+.merchandise img {
+  box-sizing: border-box;
+  height: 100%;
+  border-radius: 10px;
+  border: 2px solid steelblue;
+}
+
+.overlay {
+  box-sizing: border-box;
+  padding-top: 40px;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  height: 100%;
+  width: 100%;
+  background-color: steelblue;
+  transition: 0.8s ease;
+  border-radius: 10px;
+  border: 2px solid steelblue;
+}
+
+.overlay p {
+  color: white;
+  font-size: 80%;
+  
+}
+
+.container:hover .overlay{
+  opacity: 1;
+}
+
+figcaption {
+  font-size: 70%;
 }
